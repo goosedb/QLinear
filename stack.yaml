@@ -1,0 +1,7 @@
+resolver: lts-16.8
+
+packages:
+- .
+
+extra-deps:
+- altfloat-0.3.1
