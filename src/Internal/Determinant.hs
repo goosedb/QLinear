@@ -4,7 +4,7 @@
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
-module Internal.Determinant (det, algebraicComplement, algebraicComplement') where
+module Internal.Determinant where
 
 import Data.Proxy
 import qualified Data.List as List

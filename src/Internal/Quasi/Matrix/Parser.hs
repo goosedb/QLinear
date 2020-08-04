@@ -7,6 +7,9 @@ import Internal.Quasi.Parser
 matrix :: Parser [[Exp]]
 matrix = line `sepBy` char ';'
 
+vector :: Parser [[Exp]]
+vector = map pure <$> (line <* eof)
+
 line :: Parser [Exp]
 line = spaces >> unit `endBy1` spaces
 

@@ -36,7 +36,7 @@ transpose (Matrix size matrix) = Matrix (swap size) (List.transpose matrix)
 neg :: Num a => Matrix m n a -> Matrix m n a
 neg = ((-1) *!) 
 
-length :: (Real a, Floating b) => Matrix n 1 a -> b
+length :: (Real a, Floating b) => Vector n a -> b
 length (Matrix _ matrix) = sqrt $ sum $ squares where
   toFloating = realToFrac :: (Real a, Floating b) => a -> b
   squares = map ((**2) . toFloating) $ concat matrix
