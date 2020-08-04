@@ -1,8 +1,8 @@
 module QLinear
-    ( someFunc
+    ( main
     ) where
 
 import Internal.Operations
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+main :: IO ()
+main = putStrLn "someFunc"
