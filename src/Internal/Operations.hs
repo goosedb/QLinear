@@ -40,3 +40,4 @@ length :: (Real a, Floating b) => Matrix n 1 a -> b
 length (Matrix _ matrix) = sqrt $ sum $ squares where
   toFloating = realToFrac :: (Real a, Floating b) => a -> b
   squares = map ((**2) . toFloating) $ concat matrix
+  

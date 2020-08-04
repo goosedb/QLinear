@@ -36,4 +36,3 @@ char' = fmap pure . char
 
 anyChar' :: Parser String 
 anyChar' = fmap pure $ anyChar 
-

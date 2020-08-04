@@ -27,4 +27,3 @@ instance Applicative (Matrix m n) where
 
 instance (Eq a) => Eq (Matrix m n a) where
   Matrix _ a == Matrix _ b = a == b
-

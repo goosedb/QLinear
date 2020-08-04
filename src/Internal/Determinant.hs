@@ -14,3 +14,4 @@ instance Determinant 2 where
 instance Determinant 3 where
   det (Matrix _ [[a, b, c], [d, e, f], [g, h, k]]) =
     a * e * k + b * f * g + c * d * h - c * e * g - b * d * k - a * f * h
+    
