@@ -26,7 +26,7 @@ isNotDefinedAs as = error $ "You cannot use matrix quasi as " <> as
 
 expr :: String -> Q Exp
 expr source = do
-  let (matrix, (n, m)) = unwrap do 
+  let (matrix, (m, n)) = unwrap do 
       matrix <- Parser.parse Parser.matrix "QMatrix" source
       size <- checkSize matrix
       pure (matrix, size)
@@ -40,7 +40,7 @@ checkSize :: [[a]] -> Either [String] (Integer, Integer)
 checkSize [] = Left ["Matrix cannot be empty"]
 checkSize matrix = 
   let lines@(l:ls) = map length matrix 
-  in if all (== l) ls then Right (fromIntegral $ length matrix, fromIntegral $ length lines) 
+  in if all (== l) ls then Right (fromIntegral $ length matrix, fromIntegral l) 
                       else Left ["All lines must be the same length"]
 
 unwrap :: Either [String] a -> a
