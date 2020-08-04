@@ -20,9 +20,10 @@ var = ((many1 $ satisfyOneOf outer) <> (many $ satisfyOneOf inner)) where
 
 num :: Parser String
 num = do 
+  neg <- (char' '-') <|> pure []
   beforeDot <- ((many1 outer <> many inner) <|> char' '0') 
   afterDot <- char' '.' <> many1 inner <|> mempty 
-  pure $ beforeDot <> afterDot
+  pure $ neg <> beforeDot <> afterDot
     where
       outer = oneOf ['1'..'9']
       inner = char '0' <|> outer
