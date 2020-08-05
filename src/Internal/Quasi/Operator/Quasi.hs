@@ -51,9 +51,10 @@ checkSize (names, exprs) =
   let namesLength = length names
       exprsLength = length exprs
   in if namesLength == exprsLength then Right $ fromIntegral namesLength 
-     else Left ["Number of arguments and number of lambdas must be equals"]
+     else Left ["Number of arguments and number of lambdas must be equal"]
 
 matrixOfOperator :: forall n a b. (KnownNat n, HasIdentity a) => Matrix n 1 ([a] -> b) -> Matrix n n b
 matrixOfOperator (Matrix _ fs) = Matrix (n, n) $ chunksOf n [ f line | f <- concat fs, line <- identity ] where
   (Matrix _ identity) = e :: Matrix n n a
   n = Natural.naturalToInt $ natVal (Proxy @n)
+  
