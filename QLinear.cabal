@@ -21,6 +21,8 @@ library
                        Internal.Quasi.Parser
                        Internal.Quasi.Matrix.Parser
                        Internal.Quasi.Matrix.Quasi
+                       Internal.Quasi.Operator.Parser
+                       Internal.Quasi.Operator.Quasi
   build-depends:       base >= 4.7 && < 5,
                        split,
                        template-haskell,

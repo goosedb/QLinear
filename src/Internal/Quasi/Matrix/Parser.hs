@@ -15,11 +15,6 @@ line = spaces >> unit `endBy1` spaces
 
 unit :: Parser Exp
 unit = (var <|> num <|> inBrackets) >>= expr
-  
-var :: Parser String
-var = ((many1 $ satisfyOneOf outer) <> (many $ satisfyOneOf inner)) where
-  outer = [isAlpha, (== '_')]
-  inner = isDigit : (=='\'') :outer
 
 num :: Parser String
 num = do 

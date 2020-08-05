@@ -20,10 +20,11 @@ det (Matrix (1, _) [[a]]) = a
 det (Matrix (2, _) [[a, b], [c, d]]) = a * d - b * c
 det (Matrix (3, _) [[a, b, c], [d, e, f], [g, h, k]]) =
     a * e * k + b * f * g + c * d * h - c * e * g - b * d * k - a * f * h
-det (Matrix (n, _) matrix) = sum $ map (unsafeAlgebraicComplement matrix n) $ zip [1, 1..] indices where
-  indices = [1..n]
+det (Matrix (n, _) matrix) = sum $ map (unsafeAlgebraicComplement matrix n) indices where
+  indices = zip (repeat 1) [1..n]
       
-algebraicComplement :: forall n a i j.(KnownNat i, KnownNat j, KnownNat n, Num a, i <= n, j <= n) => Matrix n n a -> Index i j -> a
+algebraicComplement :: forall n a i j.
+  (KnownNat i, KnownNat j, KnownNat n, Num a, i <= n, j <= n) => Matrix n n a -> Index i j -> a
 algebraicComplement (Matrix (n, _) matrix) _ = unsafeAlgebraicComplement matrix n (i, j) where
   i = (Natural.naturalToInt $ natVal $ Proxy @i)
   j = (Natural.naturalToInt $ natVal $ Proxy @j)

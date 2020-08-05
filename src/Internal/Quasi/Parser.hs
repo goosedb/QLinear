@@ -1,4 +1,4 @@
-module Internal.Quasi.Parser (module Parsec, module Char, Parser, parse, expr, satisfyOneOf, char') where
+module Internal.Quasi.Parser (module Parsec, module Char, Parser, parse, var, expr, satisfyOneOf, char') where
 
 import Text.Parsec as Parsec hiding (parse)
 import Text.Parsec.Char as Parsec
@@ -36,3 +36,8 @@ char' = fmap pure . char
 
 anyChar' :: Parser String 
 anyChar' = fmap pure $ anyChar 
+
+var :: Parser String
+var = ((many1 $ satisfyOneOf outer) <> (many $ satisfyOneOf inner)) where
+  outer = [isAlpha, (== '_')]
+  inner = isDigit : (=='\'') :outer
