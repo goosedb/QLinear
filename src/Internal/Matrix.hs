@@ -29,3 +29,9 @@ instance (Eq a) => Eq (Matrix m n a) where
   Matrix _ a == Matrix _ b = a == b
 
 type Vector n a = Matrix n 1 a
+
+size :: Integral b => Matrix m n a -> (b, b)
+size (Matrix (m, n) _) = (fromIntegral m, fromIntegral n)
+
+value :: Matrix m n a -> [[a]]
+value (Matrix _ value) = value

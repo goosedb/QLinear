@@ -1,4 +1,3 @@
-{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeApplications #-}
 module Internal.Quasi.Matrix.Quasi (matrix, vector) where
@@ -31,15 +30,18 @@ vector = QuasiQuoter
 
 expr :: Parser.Parser [[Exp]] -> String -> Q Exp
 expr parser source = do
-  let (matrix, (m, n)) = unwrap do 
-      matrix <- Parser.parse parser "QLinear" source
-      size <- checkSize matrix
-      pure (matrix, size)
+  let (matrix, (m, n)) = unwrap $ parse source parser
   let sizeType = LitT . NumTyLit
   let constructor = foldl AppTypeE (ConE 'Matrix) [sizeType m, sizeType n, WildCardT]
   let size = TupE $ map (LitE . IntegerL) [m, n]
   let value = ListE $ map ListE $ matrix
   pure $ foldl AppE constructor [size, value]
+
+parse :: String -> Parser.Parser [[a]] -> Either [String] ([[a]], (Integer, Integer))
+parse source parser = do 
+  matrix <- Parser.parse parser "QLinear" source
+  size <- checkSize matrix
+  pure (matrix, size)
 
 checkSize :: [[a]] -> Either [String] (Integer, Integer)
 checkSize [] = Left ["Matrix cannot be empty"]

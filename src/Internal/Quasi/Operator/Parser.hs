@@ -9,6 +9,7 @@ definition = do
   params <- spaces *> parameters <* spaces
   string "=>"
   lams <- spaces *> lambdas <* spaces
+  eof
   pure (params, lams)
 
 lambdas :: Parser [Exp]

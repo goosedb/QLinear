@@ -5,7 +5,7 @@ import Language.Haskell.TH.Syntax
 import Internal.Quasi.Parser
 
 matrix :: Parser [[Exp]]
-matrix = line `sepBy` char ';'
+matrix = (line `sepBy` char ';') <* eof
 
 vector :: Parser [[Exp]]
 vector = map pure <$> (line <* eof)
