@@ -19,4 +19,5 @@ lambdas = do
     otherwise -> parserFail $ show otherwise
     
 parameters :: Parser [Pat]
-parameters = map (VarP . mkName) <$> var `endBy1` spaces
+parameters = char '(' *> inner <* char ')' where
+  inner = map (VarP . mkName) <$> var `sepBy` (spaces >> char ',' >> spaces)
