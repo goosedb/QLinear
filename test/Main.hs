@@ -12,6 +12,7 @@ import Internal.Quasi.Operator.Quasi
 import Internal.Matrix
 import Internal.Operations
 import Internal.Identity
+import Internal.Index
 import Internal.Determinant
 
 newtype TestMatrix m n a = TestMatrix (Matrix m n a)
@@ -124,15 +125,28 @@ main = hspec do
         11 22 13 26  15; 
         30 17 34 19  38; 
         21 42 23 46 -25 |] `shouldBe` (-125200)
+        
   describe "Identity matrix" do
     it "multiplication" do
       let m = [matrix| 1 2 3 4; 5 6 7 8 |]
       let i = e :: Matrix 3 3 Int
       (m !*! e) `matrixEq` (e !*! m)
-      (i !*! e) `matrixEq` (e !*! i)
+      (i !*! e) `matrixEq` e
+      (e !*! i) `matrixEq` e
     it "determinant" do
       det (e :: Matrix 1 1 Int) `shouldBe` 1
       det (e :: Matrix 2 2 Int) `shouldBe` 1
       det (e :: Matrix 3 3 Int) `shouldBe` 1
       det (e :: Matrix 4 4 Int) `shouldBe` 1
       det (e :: Matrix 5 5 Int) `shouldBe` 1
+  
+  describe "Algebraic complement" do
+    it "typesafe" do
+      {- doesn't compile -}
+      -- algebraicComplement [matrix| 1 2; 3 4 |] (Index @1 @3) `shouldBe` 4
+      algebraicComplement [matrix| 1 2; 3 4 |] (Index @1 @1) `shouldBe` 4
+      algebraicComplement [matrix| 1 2; 3 4 |] (Index @1 @2) `shouldBe` (-6)
+    it "not typesafe" do
+      algebraicComplement' [matrix| 1 2; 3 4 |] (1, 3) `shouldBe` Nothing
+      algebraicComplement' [matrix| 1 2; 3 4 |] (1, 1) `shouldBe` Just 4
+      algebraicComplement' [matrix| 1 2; 3 4 |] (1, 2) `shouldBe` Just (-6)

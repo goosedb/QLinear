@@ -12,7 +12,7 @@ import GHC.TypeNats
 import Prelude hiding (length)
 
 data Matrix (m :: Nat) (n :: Nat) a where
-  Matrix :: forall m n a. (Int, Int) -> [[a]] -> Matrix m n a
+  Matrix :: forall m n a. (Int, Int) -> ![[a]] -> Matrix m n a
 
 instance Show a => Show (Matrix m n a) where
   show (Matrix _ matrix) = List.intercalate "\n" $ map show matrix
