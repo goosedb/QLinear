@@ -33,5 +33,5 @@ QLinear is type safe library for linear algebra based on `"macro-constructors"`
      * `val` is `number literal`, `variable` or `any Haskell expression` between `(` and `)`
      * `var` is Haskell variable   
      * `exp` is any Haskell expression
-  
+  ---
 Also there are basic operations as determinant, transposition, etc.
