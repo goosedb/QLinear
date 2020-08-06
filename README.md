@@ -26,11 +26,12 @@ QLinear is type safe library for linear algebra based on `"macro-constructors"`
     [operator| (x, y) => (3 * y, x / 2) |] !*! [vector| 2 8 |] == [vector| 24 1 |]
     ```
 ## Syntax:
-   * matrix: `exp11 exp12 .. exp1n; exp21 exp22 .. exp2n; ..; expm1 expm2 .. expmn `
-   * vector: `exp1 exp2 .. expn`
+   * matrix: `val11 val12 .. val1n; val21 val22 .. val2n; ..; valm1 valm2 .. valmn `
+   * vector: `val1 val2 .. valn`
    * operator: `(var1, var2, .., varn) =>  (exp1, exp2, .., expn)`  
      where 
-     * `exp` is `number literal`, `variable` or `any Haskell expression between` `(` and `)`
+     * `val` is `number literal`, `variable` or `any Haskell expression between` `(` and `)`
      * `var` is Haskell variable   
+     * `exp` is any Haskell expression
   
 Also there are basic operations as determinant, transposition, etc.
