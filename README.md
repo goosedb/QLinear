@@ -30,7 +30,7 @@ QLinear is type safe library for linear algebra based on `"macro-constructors"`
    * vector: `val1 val2 .. valn`
    * operator: `(var1, var2, .., varn) =>  (exp1, exp2, .., expn)`  
      where 
-     * `val` is `number literal`, `variable` or `any Haskell expression between` `(` and `)`
+     * `val` is `number literal`, `variable` or `any Haskell expression` between `(` and `)`
      * `var` is Haskell variable   
      * `exp` is any Haskell expression
   
