@@ -1,6 +1,11 @@
 module QLinear
-    ( main
-    ) where
+  ( module E
+  )
+where
 
-main :: IO ()
-main = putStrLn "someFunc"
+import QLinear.Matrix as E
+import QLinear.Identity as E
+import QLinear.Constructor.Matrix as E
+import QLinear.Constructor.Operator as E
+import QLinear.Index as E
+import QLinear.Operations as E

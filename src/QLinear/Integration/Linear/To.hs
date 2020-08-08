@@ -4,7 +4,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 
-module Internal.Integration.Linear.To where
+module QLinear.Integration.Linear.To where
 
 import Data.List
 import Internal.Matrix

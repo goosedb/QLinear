@@ -13,20 +13,23 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     QLinear
+  exposed-modules:     QLinear, 
+                       QLinear.Operations,
+                       QLinear.Index,
+                       QLinear.Identity
+                       QLinear.Constructor.Matrix,
+                       QLinear.Constructor.Operator,
+                       QLinear.Matrix,
+                       QLinear.Integration.Linear.From,
+                       QLinear.Integration.Linear.To
   other-modules:       Internal.Determinant,
                        Internal.Matrix,
-                       Internal.Identity,
-                       Internal.Index,
-                       Internal.Operations,
                        Internal.Quasi.Quasi,
                        Internal.Quasi.Parser,
                        Internal.Quasi.Matrix.Parser,
                        Internal.Quasi.Matrix.Quasi,
                        Internal.Quasi.Operator.Parser,
-                       Internal.Quasi.Operator.Quasi,
-                       Internal.Integration.Linear.From,
-                       Internal.Integration.Linear.To
+                       Internal.Quasi.Operator.Quasi
   build-depends:       base >= 4.7 && < 5,
                        split,
                        template-haskell,
@@ -50,16 +53,18 @@ test-suite UnitTests
                        haskell-src-meta,
                        linear
   other-modules:       Internal.Determinant,
+                       Internal.Quasi.Operator.Quasi
                        Internal.Matrix,
-                       Internal.Identity,
-                       Internal.Index,
-                       Internal.Operations,
+                       QLinear.Identity,
+                       QLinear.Constructor.Matrix
+                       QLinear.Constructor.Operator,
+                       QLinear.Index,
+                       QLinear.Operations,
                        Internal.Quasi.Quasi,
                        Internal.Quasi.Parser,
                        Internal.Quasi.Matrix.Parser,
                        Internal.Quasi.Matrix.Quasi,
-                       Internal.Quasi.Operator.Parser,
-                       Internal.Quasi.Operator.Quasi
+                       Internal.Quasi.Operator.Parser
   default-language:    Haskell2010
   default-extensions:  DataKinds, BlockArguments, TemplateHaskell, QuasiQuotes, TypeApplications
 
