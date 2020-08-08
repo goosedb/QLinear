@@ -50,61 +50,61 @@ main = hspec do
   describe "Addition" do
     it "two matrices" do
       {- doesn't compile  -}
-      -- [matrix| 1 2 |] !+! [matrix| 1 2 3 |] `matrixEq` undefined
-      [matrix| 1 2 |] !+! [matrix| 3 4 |] `matrixEq` [matrix| 4 6 |]
-      [matrix| 1 2; 3 4 |] !+! [matrix| 3 4; 5 6 |] `matrixEq` [matrix| 4 6; 8 10 |]
+      -- [matrix| 1 2 |] ~+~ [matrix| 1 2 3 |] `matrixEq` undefined
+      [matrix| 1 2 |] ~+~ [matrix| 3 4 |] `matrixEq` [matrix| 4 6 |]
+      [matrix| 1 2; 3 4 |] ~+~ [matrix| 3 4; 5 6 |] `matrixEq` [matrix| 4 6; 8 10 |]
     it "matrix and identity matrix" do 
       {- doesn't compile  -}
-      -- [matrix| 1 2 |] !+! e `matrixEq` undefined
-      [matrix| 1 2; 3 4 |] !+! e `matrixEq` [matrix| 2 2; 3 5 |]
-      e !+! [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 2 2; 3 5 |]
+      -- [matrix| 1 2 |] ~+~ e `matrixEq` undefined
+      [matrix| 1 2; 3 4 |] ~+~ e `matrixEq` [matrix| 2 2; 3 5 |]
+      e ~+~ [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 2 2; 3 5 |]
     it "two identity matrices" do
       {- doesn't compile  -}
-      -- (e :: Matrix 3 3 Int) !+! (e :: Matrix 4 4 Int) `matrixEq` undefined
-      (e :: Matrix 3 3 Int) !+! e `matrixEq` [matrix| 2 0 0; 0 2 0; 0 0 2 |]
+      -- (e :: Matrix 3 3 Int) ~+~ (e :: Matrix 4 4 Int) `matrixEq` undefined
+      (e :: Matrix 3 3 Int) ~+~ e `matrixEq` [matrix| 2 0 0; 0 2 0; 0 0 2 |]
     it "two vectors" do
       {- doesn't compile  -}
-      -- [vector| 1 2 |] !+! [vector| 1 2 3 |] `matrixEq` undefined
-      [vector| 1 2 |] !+! [vector| 3 4 |] `matrixEq` [vector| 4 6 |]
+      -- [vector| 1 2 |] ~+~ [vector| 1 2 3 |] `matrixEq` undefined
+      [vector| 1 2 |] ~+~ [vector| 3 4 |] `matrixEq` [vector| 4 6 |]
 
   describe "Substaction" do
     it "two matrices" do
       {- doesn't compile  -}
-      -- [matrix| 1 2 |] !-! [matrix| 1 2 3 |] `matrixEq` undefined
-      [matrix| 1 2 |] !-! [matrix| 3 4 |] `matrixEq` [matrix| -2 -2 |]
-      [matrix| 1 2; 3 4 |] !-! [matrix| 3 4; 5 6 |] `matrixEq` [matrix| -2 -2; -2 -2 |]
+      -- [matrix| 1 2 |] ~-~ [matrix| 1 2 3 |] `matrixEq` undefined
+      [matrix| 1 2 |] ~-~ [matrix| 3 4 |] `matrixEq` [matrix| -2 -2 |]
+      [matrix| 1 2; 3 4 |] ~-~ [matrix| 3 4; 5 6 |] `matrixEq` [matrix| -2 -2; -2 -2 |]
     it "matrix and identity matrix" do
       {- doesn't compile  -}
-      -- [matrix| 1 2 |] !-! e `matrixEq` undefined
-      [matrix| 1 2; 3 4 |] !-! e `matrixEq` [matrix| 0 2; 3 3 |]
-      e !-! [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 0 -2; -3 -3 |]
+      -- [matrix| 1 2 |] ~-~ e `matrixEq` undefined
+      [matrix| 1 2; 3 4 |] ~-~ e `matrixEq` [matrix| 0 2; 3 3 |]
+      e ~-~ [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 0 -2; -3 -3 |]
     it "two identity matrices" do
       {- doesn't compile  -}
-      -- (e :: Matrix 3 3 Int) !-! (e :: Matrix 4 4 Int) `matrixEq` undefined
-      (e :: Matrix 3 3 Int) !-! e `matrixEq` [matrix| 0 0 0; 0 0 0; 0 0 0 |]
+      -- (e :: Matrix 3 3 Int) ~-~ (e :: Matrix 4 4 Int) `matrixEq` undefined
+      (e :: Matrix 3 3 Int) ~-~ e `matrixEq` [matrix| 0 0 0; 0 0 0; 0 0 0 |]
     it "two vectors" do
       {- doesn't compile  -}
-      -- [vector| 1 2 |] !-! [vector| 1 2 3 |] `matrixEq` undefined
-      [vector| 1 2 |] !-! [vector| 3 4 |] `matrixEq` [vector| -2 -2 |]
+      -- [vector| 1 2 |] ~-~ [vector| 1 2 3 |] `matrixEq` undefined
+      [vector| 1 2 |] ~-~ [vector| 3 4 |] `matrixEq` [vector| -2 -2 |]
 
   describe "Multiplication" do
     it "two matrices" do 
       {- doesn't compile  -}
-      -- [matrix| 1 2 |] !*! [matrix| 1 2 |] `matrixEq` undefined
-      [matrix| 2 |] !*! [matrix| 3 |] `matrixEq` [matrix| 6 |]
-      [matrix| 1 2 |] !*! [matrix| 1; 2 |] `matrixEq` [matrix| 5 |]
-      [matrix| 1 2 |] !*! [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 7 10 |]
-      [matrix| 1 2; 3 4 |] !*! [matrix| 2 3; 4 5 |] `matrixEq` [matrix| 10 13; 22 29 |]
+      -- [matrix| 1 2 |] ~*~ [matrix| 1 2 |] `matrixEq` undefined
+      [matrix| 2 |] ~*~ [matrix| 3 |] `matrixEq` [matrix| 6 |]
+      [matrix| 1 2 |] ~*~ [matrix| 1; 2 |] `matrixEq` [matrix| 5 |]
+      [matrix| 1 2 |] ~*~ [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 7 10 |]
+      [matrix| 1 2; 3 4 |] ~*~ [matrix| 2 3; 4 5 |] `matrixEq` [matrix| 10 13; 22 29 |]
     it "matrix and identity matrix" do
       {- doesn't compile  -}
-      -- [matrix| 1 2 |] !*! (e :: Matrix 3 3 Int) `matrixEq` undefined
-      [matrix| 1 2 |] !*! e `matrixEq` [matrix| 1 2 |]
-      [matrix| 1 2; 3 4 |] !*! e `matrixEq` [matrix| 1 2; 3 4 |]
-      e !*! [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 1 2; 3 4 |]
+      -- [matrix| 1 2 |] ~*~ (e :: Matrix 3 3 Int) `matrixEq` undefined
+      [matrix| 1 2 |] ~*~ e `matrixEq` [matrix| 1 2 |]
+      [matrix| 1 2; 3 4 |] ~*~ e `matrixEq` [matrix| 1 2; 3 4 |]
+      e ~*~ [matrix| 1 2; 3 4 |] `matrixEq` [matrix| 1 2; 3 4 |]
     it "two identity matrices" do
       {- doesn't compile  -}
-      -- (e :: Matrix 3 3 Int) !*! (e :: Matrix 4 4 Int) `matrixEq` undefined
-      (e :: Matrix 3 3 Int) !*! e `matrixEq` e
+      -- (e :: Matrix 3 3 Int) ~*~ (e :: Matrix 4 4 Int) `matrixEq` undefined
+      (e :: Matrix 3 3 Int) ~*~ e `matrixEq` e
 
   describe "Determinant" do
     it "not identity matrix" do
@@ -130,9 +130,9 @@ main = hspec do
     it "multiplication" do
       let m = [matrix| 1 2 3 4; 5 6 7 8 |]
       let i = e :: Matrix 3 3 Int
-      (m !*! e) `matrixEq` (e !*! m)
-      (i !*! e) `matrixEq` e
-      (e !*! i) `matrixEq` e
+      (m ~*~ e) `matrixEq` (e ~*~ m)
+      (i ~*~ e) `matrixEq` e
+      (e ~*~ i) `matrixEq` e
     it "determinant" do
       det (e :: Matrix 1 1 Int) `shouldBe` 1
       det (e :: Matrix 2 2 Int) `shouldBe` 1

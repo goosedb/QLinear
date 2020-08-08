@@ -8,11 +8,11 @@ QLinear is type safe library for linear algebra based on `"macro-constructors"`
     
     Example: 
     ```haskell
-    [matrix| 1 2; 3 4 |] !+! [matrix| 2 3; 4 5 |] == [matrix| 3 5; 7 9 |] 
+    [matrix| 1 2; 3 4 |] ~+~ [matrix| 2 3; 4 5 |] == [matrix| 3 5; 7 9 |] 
     ```   
     > Also you can't, for example, add two matrix with different size. 
     ```haskell
-   [matrix| 1 2; 3 4 |] !+! [matrix| 1 2 3; 4 5 6; 7 8 9 |] -- will not be compiled
+   [matrix| 1 2; 3 4 |] ~+~ [matrix| 1 2 3; 4 5 6; 7 8 9 |] -- will not be compiled
     ```
 
   * vector
@@ -23,7 +23,7 @@ QLinear is type safe library for linear algebra based on `"macro-constructors"`
    
    Example: 
     ```haskell
-    [operator| (x, y) => (3 * y, x / 2) |] !*! [vector| 2 8 |] == [vector| 24 1 |]
+    [operator| (x, y) => (3 * y, x / 2) |] ~*~ [vector| 2 8 |] == [vector| 24 1 |]
     ```
 ## Syntax:
    * matrix: `val11 val12 .. val1n; val21 val22 .. val2n; ..; valm1 valm2 .. valmn `
