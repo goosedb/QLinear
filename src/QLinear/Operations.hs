@@ -92,7 +92,7 @@ mulMatricesWith mul add (Matrix (m, _) left) (Matrix (_, k) right) =
   Matrix (m, k) $
     chunksOf k [add $ zipWith mul line column | line <- left, column <- List.transpose right]
 
--- | Generalizer matrices addition
+-- | Generalized matrices addition
 zipMatricesWith ::
   -- | operation "__+__"
   (a -> b -> c) ->
