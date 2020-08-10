@@ -1,2 +1,5 @@
 .stack-work
 dist-newstyle/
+dist
+cache
+build

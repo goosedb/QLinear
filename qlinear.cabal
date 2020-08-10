@@ -1,73 +1,58 @@
-name:                qlinear
-version:             0.1.0.0
-homepage:            https://github.com/githubuser/QLinear#readme
-license:             BSD3
-license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2020 Author name here
-category:            Web
-build-type:          Simple
-extra-source-files:  README.md
-cabal-version:       >=1.10
+cabal-version: 1.12
 
-library
-  hs-source-dirs:      src
-  exposed-modules:     QLinear, 
-                       QLinear.Operations,
-                       QLinear.Index,
-                       QLinear.Identity
-                       QLinear.Constructor.Matrix,
-                       QLinear.Constructor.Operator,
-                       QLinear.Matrix,
-                       QLinear.Integration.Linear.From,
-                       QLinear.Integration.Linear.To
-  other-modules:       Internal.Determinant,
-                       Internal.Matrix,
-                       Internal.Quasi.Quasi,
-                       Internal.Quasi.Parser,
-                       Internal.Quasi.Matrix.Parser,
-                       Internal.Quasi.Matrix.Quasi,
-                       Internal.Quasi.Operator.Parser,
-                       Internal.Quasi.Operator.Quasi
-  build-depends:       base >= 4.7 && < 5,
-                       split,
-                       template-haskell,
-                       parsec,
-                       haskell-src-exts,
-                       haskell-src-meta,
-                       linear
-  default-language:    Haskell2010
-  default-extensions:  DataKinds, BlockArguments
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: c3b8f366d9572c777b0ff02e99a3c74796389da544ec7474df3ba095fcdd17e3
 
-test-suite UnitTests
-  type:                exitcode-stdio-1.0
-  main-is:             Main.hs
-  hs-source-dirs:      test, src
-  build-depends:       base >= 4.7 && < 5,
-                       hspec,
-                       split,
-                       template-haskell,
-                       parsec,
-                       haskell-src-exts,
-                       haskell-src-meta,
-                       linear
-  other-modules:       Internal.Determinant,
-                       Internal.Quasi.Operator.Quasi
-                       Internal.Matrix,
-                       QLinear.Identity,
-                       QLinear.Constructor.Matrix
-                       QLinear.Constructor.Operator,
-                       QLinear.Index,
-                       QLinear.Operations,
-                       Internal.Quasi.Quasi,
-                       Internal.Quasi.Parser,
-                       Internal.Quasi.Matrix.Parser,
-                       Internal.Quasi.Matrix.Quasi,
-                       Internal.Quasi.Operator.Parser
-  default-language:    Haskell2010
-  default-extensions:  DataKinds, BlockArguments, TemplateHaskell, QuasiQuotes, TypeApplications
+name:           qlinear
+version:        0.1.0.0
+synopsis:       Typesafe library for linear algebra
+description:    Please see the README on GitHub at <https://github.com/JuniorGarbageCollector/QLinear>
+category:       Math
+homepage:       https://github.com/JuniorGarbageCollector/QLinear#readme
+bug-reports:    https://github.com/JuniorGarbageCollector/QLinear/issues
+author:         JuniorGarbageCollector
+maintainer:     GooseDB@yandex.ru
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
 
 source-repository head
-  type:     git
-  location: https://github.com/githubuser/QLinear
+  type: git
+  location: https://github.com/JuniorGarbageCollector/QLinear
+
+library
+  exposed-modules:
+      QLinear
+      QLinear.Constructor.Matrix
+      QLinear.Constructor.Operator
+      QLinear.Identity
+      QLinear.Index
+      QLinear.Integration.Linear.From
+      QLinear.Integration.Linear.To
+      QLinear.Matrix
+      QLinear.Operations
+  other-modules:
+      Internal.Determinant
+      Internal.Matrix
+      Internal.Quasi.Matrix.Parser
+      Internal.Quasi.Matrix.Quasi
+      Internal.Quasi.Operator.Parser
+      Internal.Quasi.Operator.Quasi
+      Internal.Quasi.Parser
+      Internal.Quasi.Quasi
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , haskell-src-exts >=1.23.1 && <1.24
+    , haskell-src-meta >=0.8.5 && <0.9
+    , linear >=1.21.1 && <1.22
+    , parsec >=3.1.13 && <3.2
+    , split >=0.2.3 && <0.3
+    , template-haskell >= 2.14.0 && < 2.15
+  default-language: Haskell2010

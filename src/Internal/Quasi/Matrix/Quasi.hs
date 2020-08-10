@@ -1,3 +1,4 @@
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeApplications #-}
 
@@ -37,7 +38,6 @@ matrix =
 -- [4]
 -- >>> :t [vector| 1 2 3 4 |]
 -- [vector| 1 2 3 4 |] :: Num a => Vector 4 a
---
 vector :: QuasiQuoter
 vector =
   QuasiQuoter
@@ -50,8 +50,9 @@ vector =
     notDefined = isNotDefinedAs "vector"
 
 vectorExpr :: String -> Q Exp
-vectorExpr source = f <$> expr Parser.vector source where 
-  f = AppE (VarE 'toVector)
+vectorExpr source = f <$> expr Parser.vector source
+  where
+    f = AppE (VarE 'toVector)
 
 expr :: Parser.Parser [[Exp]] -> String -> Q Exp
 expr parser source = do
@@ -77,4 +78,4 @@ checkSize matrix =
         else Left ["All lines must be the same length"]
 
 toVector :: Matrix n 1 a -> Vector n a
-toVector = id 
+toVector = id

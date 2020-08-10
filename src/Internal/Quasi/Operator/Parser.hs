@@ -1,8 +1,7 @@
 module Internal.Quasi.Operator.Parser where
 
-import Language.Haskell.TH.Syntax
-
 import Internal.Quasi.Parser
+import Language.Haskell.TH.Syntax
 
 definition :: Parser ([Pat], [Exp])
 definition = do
@@ -18,7 +17,8 @@ lambdas = do
   case result of
     TupE elems -> pure elems
     otherwise -> parserFail $ show otherwise
-    
+
 parameters :: Parser [Pat]
-parameters = char '(' *> inner <* char ')' where
-  inner = map (VarP . mkName) <$> var `sepBy` (spaces >> char ',' >> spaces)
+parameters = char '(' *> inner <* char ')'
+  where
+    inner = map (VarP . mkName) <$> var `sepBy` (spaces >> char ',' >> spaces)

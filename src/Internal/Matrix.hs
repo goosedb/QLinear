@@ -1,6 +1,8 @@
-{-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE RankNTypes #-}
+
 module Internal.Matrix where
 
 import qualified Data.List as List

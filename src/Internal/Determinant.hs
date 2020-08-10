@@ -12,8 +12,8 @@ import Data.List.Split
 import Data.Proxy
 import qualified GHC.Natural as Natural
 import GHC.TypeNats
-import QLinear.Index
 import Internal.Matrix
+import QLinear.Index
 
 -- | Determinant of matrix
 --
@@ -31,16 +31,14 @@ det (Matrix (n, _) matrix) = sum $ map calcElem indices
     calcElem index@(i, j) = ((!! (j - 1)) $ matrix !! (i - 1)) * unsafeAlgebraicComplement matrix n index
     indices = zip (repeat 1) [1 .. n]
 
-{- | Typesafe algebraic complement
-
-To use it you have to know i and j at compile time
-
->>> algebraicComplement [matrix| 1 2; 3 4 |] (Index @1 @1)
-4
->>> algebraicComplement [matrix| 1 2 3; 4 5 6; 7 8 9 |] (Index @1 @1)
--3
-
--}
+-- | Typesafe algebraic complement
+--
+-- To use it you have to know i and j at compile time
+--
+-- >>> algebraicComplement [matrix| 1 2; 3 4 |] (Index @1 @1)
+-- 4
+-- >>> algebraicComplement [matrix| 1 2 3; 4 5 6; 7 8 9 |] (Index @1 @1)
+-- -3
 algebraicComplement ::
   forall n a i j.
   (KnownNat i, KnownNat j, KnownNat n, Num a, i <= n, j <= n) =>
@@ -52,38 +50,32 @@ algebraicComplement (Matrix (n, _) matrix) _ = unsafeAlgebraicComplement matrix 
     i = (Natural.naturalToInt $ natVal $ Proxy @i)
     j = (Natural.naturalToInt $ natVal $ Proxy @j)
 
-
-{- | Algebraic complement.
-
-Use it if you don't know indices at compile time
-
->>> algebraicComplement' [matrix| 1 2; 3 4 |] (1, 1)
-Just 4
-
->>> algebraicComplement' [matrix| 1 2; 3 4 |] (34, 43)
-Nothing
-
->>> algebraicComplement' [matrix| 1 2 3; 4 5 6; 7 8 9 |] (1, 1)
-Just (-3)
-
--}
+-- | Algebraic complement.
+--
+-- Use it if you don't know indices at compile time
+--
+-- >>> algebraicComplement' [matrix| 1 2; 3 4 |] (1, 1)
+-- Just 4
+--
+-- >>> algebraicComplement' [matrix| 1 2; 3 4 |] (34, 43)
+-- Nothing
+--
+-- >>> algebraicComplement' [matrix| 1 2 3; 4 5 6; 7 8 9 |] (1, 1)
+-- Just (-3)
 algebraicComplement' :: Num a => Matrix n n a -> (Int, Int) -> Maybe a
 algebraicComplement' (Matrix (n, _) matrix) ij@(i, j)
   | i <= n && j <= n = Just $ unsafeAlgebraicComplement matrix n ij
   | otherwise = Nothing
 
-{- | Adjugate matrix
-
->>> adjugate [matrix| 1 2; 3 4|]
-[4,-2]
-[-3,1]
-
--}
+-- | Adjugate matrix
+--
+-- >>> adjugate [matrix| 1 2; 3 4|]
+-- [4,-2]
+-- [-3,1]
 adjugate :: Num a => Matrix n n a -> Matrix n n a
 adjugate (Matrix size@(n, _) matrix) = Matrix size $ chunksOf n $ adj
   where
     adj = map (unsafeAlgebraicComplement matrix n) [(i, j) | j <- [1 .. n], i <- [1 .. n]]
-
 
 unsafeAlgebraicComplement :: forall a. Num a => [[a]] -> Int -> (Int, Int) -> a
 unsafeAlgebraicComplement matrix n (i, j) = k * det (Matrix (n - 1, n - 1) minor)

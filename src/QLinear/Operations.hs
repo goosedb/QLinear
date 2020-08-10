@@ -6,17 +6,17 @@ module QLinear.Operations
     neg,
     transpose,
     zipMatricesWith,
+    det,
+    algebraicComplement,
+    algebraicComplement',
+    adjugate,
+    inverted,
     (*~),
     (~*~),
     (~+),
     (+~),
     (~+~),
     (~-~),
-    det,
-    algebraicComplement,
-    algebraicComplement',
-    adjugate,
-    inverted,
   )
 where
 
