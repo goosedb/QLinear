@@ -19,6 +19,19 @@ import Language.Haskell.TH.Quote
 import Language.Haskell.TH.Syntax
 import QLinear.Identity
 
+{- | Macro constructor for operator
+
+>>> [operator| (x, y) => (y, x) |]
+[0,1]
+[1,0]
+>>> [operator| (x, y) => (2 * x, y + x) |] ~*~ [vector| 3 4 |]
+[6]
+[7]
+
+Do note,constructor __doesn't prove__ linearity.
+It just builds matrix of given operator.
+
+-}
 operator :: QuasiQuoter
 operator =
   QuasiQuoter

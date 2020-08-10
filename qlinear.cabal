@@ -1,11 +1,4 @@
-cabal-version: 1.12
-
--- This file has been generated from package.yaml by hpack version 0.33.0.
---
--- see: https://github.com/sol/hpack
---
--- hash: c3b8f366d9572c777b0ff02e99a3c74796389da544ec7474df3ba095fcdd17e3
-
+cabal-version: 3.0
 name:           qlinear
 version:        0.1.0.0
 synopsis:       Typesafe library for linear algebra
@@ -15,7 +8,7 @@ homepage:       https://github.com/JuniorGarbageCollector/QLinear#readme
 bug-reports:    https://github.com/JuniorGarbageCollector/QLinear/issues
 author:         JuniorGarbageCollector
 maintainer:     GooseDB@yandex.ru
-license:        BSD3
+license:        BSD-3-Clause
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
@@ -56,3 +49,35 @@ library
     , split >=0.2.3 && <0.3
     , template-haskell >= 2.14.0 && < 2.15
   default-language: Haskell2010
+
+test-suite UnitTests
+  type:                exitcode-stdio-1.0
+  main-is:             Main.hs
+  hs-source-dirs:      test, src
+  build-depends:       base,
+                       hspec,
+                       split,
+                       template-haskell,
+                       parsec,
+                       haskell-src-exts,
+                       haskell-src-meta,
+                       linear
+  exposed-modules:     Main
+  other-modules:       QLinear
+                       QLinear.Constructor.Matrix
+                       QLinear.Constructor.Operator
+                       QLinear.Identity
+                       QLinear.Index
+                       QLinear.Integration.Linear.From
+                       QLinear.Integration.Linear.To
+                       QLinear.Matrix
+                       QLinear.Operations
+                       Internal.Determinant
+                       Internal.Matrix
+                       Internal.Quasi.Matrix.Parser
+                       Internal.Quasi.Matrix.Quasi
+                       Internal.Quasi.Operator.Parser
+                       Internal.Quasi.Operator.Quasi
+                       Internal.Quasi.Parser
+                       Internal.Quasi.Quasi
+  default-language:    Haskell2010

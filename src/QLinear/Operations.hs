@@ -77,20 +77,20 @@ import Prelude hiding (length)
 -- [5]
 -- [11]
 (~*~) :: Num a => Matrix m n a -> Matrix n k a -> Matrix m k a
-(~*~) = mulMatricesWith (*) sum
+(~*~) = mulMatricesWith (*) (+)
 
 -- | Generalized matrices multiplication
 mulMatricesWith ::
   -- | operation "__*__"
   (a -> b -> c) ->
-  -- | operation `"__+__"`. "/Summarizes/" elements of list
-  ([c] -> d) ->
+  -- | operation "__+__"
+  (c -> c -> c) ->
   Matrix m n a ->
   Matrix n k b ->
-  Matrix m k d
+  Matrix m k c
 mulMatricesWith mul add (Matrix (m, _) left) (Matrix (_, k) right) =
   Matrix (m, k) $
-    chunksOf k [add $ zipWith mul line column | line <- left, column <- List.transpose right]
+    chunksOf k [foldl1 add $ zipWith mul line column | line <- left, column <- List.transpose right]
 
 -- | Generalized matrices addition
 zipMatricesWith ::
