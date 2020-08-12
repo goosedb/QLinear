@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes #-}
-
+{-# LANGUAGE ScopedTypeVariables #-}
 module QLinear.Operations
   ( length,
     mulMatricesWith,
@@ -124,10 +124,10 @@ neg = ((-1) *~)
 -- 5.0
 -- >>> length [vector| 1 1 |]
 -- 1.4142135623730951
-length :: (Real a, Floating b) => Vector n a -> b
+length :: forall a b n. (Real a, Floating b) => Vector n a -> b
 length (Matrix _ matrix) = sqrt $ sum $ squares
   where
-    toFloating = realToFrac :: (Real a, Floating b) => a -> b
+    toFloating = realToFrac :: a -> b
     squares = map ((** 2) . toFloating) $ concat matrix
 
 -- | Inverted matrix
@@ -140,10 +140,10 @@ length (Matrix _ matrix) = sqrt $ sum $ squares
 inverted :: forall a b n. (Fractional b, Eq a, Real a) => Matrix n n a -> Maybe (Matrix n n b)
 inverted (Matrix size@(1, 1) [[a]]) = if a /= 0 then Just (Matrix size [[1.0 / toFloating a]]) else Nothing
   where
-    toFloating = realToFrac :: (Real a, Fractional b) => a -> b
+    toFloating = realToFrac :: a -> b
 inverted matrix = if determinant /= 0 then Just $ ((invertedDet *) . toFloating) <$> adj else Nothing
   where
-    toFloating = realToFrac :: (Real a, Fractional b) => a -> b
+    toFloating = realToFrac :: a -> b
     determinant = det matrix
     invertedDet = 1.0 / toFloating determinant
     adj = adjugate matrix
