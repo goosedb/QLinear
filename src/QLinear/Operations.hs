@@ -35,6 +35,8 @@ import Prelude hiding (length)
 (~+~) :: Num a => Matrix m n a -> Matrix m n a -> Matrix m n a
 (~+~) = zipMatricesWith (+)
 
+infixl 6 ~+~
+
 -- | Multuplies all elements of matrix __m__ by __k__
 --
 -- >>> 5 *~ [matrix| 1 2 3; 4 5 6 |]
@@ -49,6 +51,8 @@ import Prelude hiding (length)
   Matrix m n a
 (*~) n = fmap (n *)
 
+infixl 7 *~
+
 -- | Adds __a__ to all elements of matrix __m__
 --
 -- >>> [matrix| 1 2 3 |] ~+ 8
@@ -60,9 +64,13 @@ import Prelude hiding (length)
   Matrix m n a
 (~+) m n = (+ n) <$> m
 
+infixl 6 ~+
+
 -- | Flipped __~+__ :)
 (+~) :: Num a => a -> Matrix m n a -> Matrix m n a
 (+~) = flip (~+)
+
+infixl 6 +~
 
 -- | Substracts second matrix from first one
 --
@@ -71,6 +79,9 @@ import Prelude hiding (length)
 (~-~) :: Num a => Matrix m n a -> Matrix m n a -> Matrix m n a
 (~-~) = zipMatricesWith (-)
 
+infixl 6 ~-~
+
+
 -- | Multiplies two matrix
 --
 -- >>> [matrix| 1 2; 3 4 |] ~*~ [matrix| 1; 2 |]
@@ -78,6 +89,8 @@ import Prelude hiding (length)
 -- [11]
 (~*~) :: Num a => Matrix m n a -> Matrix n k a -> Matrix m k a
 (~*~) = mulMatricesWith (*) (+)
+
+infixl 7 ~*~
 
 -- | Generalized matrices multiplication
 mulMatricesWith ::
