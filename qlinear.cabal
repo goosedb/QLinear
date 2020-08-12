@@ -1,6 +1,6 @@
 cabal-version:  3.0
 name:           qlinear
-version:        0.1.0.1
+version:        0.1.2.0
 synopsis:       Typesafe library for linear algebra
 description:    Please see the README on GitHub at <https://github.com/JuniorGarbageCollector/QLinear>
 category:       Math
