@@ -1,6 +1,6 @@
-cabal-version: 3.0
+cabal-version:  3.0
 name:           qlinear
-version:        0.1.0.0
+version:        0.1.0.1
 synopsis:       Typesafe library for linear algebra
 description:    Please see the README on GitHub at <https://github.com/JuniorGarbageCollector/QLinear>
 category:       Math
@@ -41,13 +41,13 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      base >=4.13.0 && < 4.15
     , haskell-src-exts >=1.23.1 && <1.24
     , haskell-src-meta >=0.8.5 && <0.9
     , linear >=1.21.1 && <1.22
     , parsec >=3.1.13 && <3.2
     , split >=0.2.3 && <0.3
-    , template-haskell >= 2.14.0 && < 2.15
+    , template-haskell >= 2.15.0 && < 2.16
   default-language: Haskell2010
 
 test-suite UnitTests
@@ -62,7 +62,6 @@ test-suite UnitTests
                        haskell-src-exts,
                        haskell-src-meta,
                        linear
-  exposed-modules:     Main
   other-modules:       QLinear
                        QLinear.Constructor.Matrix
                        QLinear.Constructor.Operator
