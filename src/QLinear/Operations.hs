@@ -11,6 +11,7 @@ module QLinear.Operations
     algebraicComplement',
     adjugate,
     inverted,
+    solve,
     (*~),
     (~*~),
     (~+),
@@ -160,3 +161,13 @@ inverted matrix = if determinant /= 0 then Just $ ((invertedDet *) . toFloating)
     determinant = det matrix
     invertedDet = 1.0 / toFloating determinant
     adj = adjugate matrix
+
+-- | Solves matrix equation kind of __A * X = B__
+solve :: forall a m n. (Eq a, Fractional a, Real a) => 
+  -- | A
+  Matrix m m a -> 
+  -- | B
+  Matrix m n a -> 
+  -- | X
+  Maybe (Matrix m n a) 
+solve a b = (~*~ b) <$> inverted a
