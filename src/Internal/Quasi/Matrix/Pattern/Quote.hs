@@ -8,7 +8,7 @@ import Language.Haskell.TH.Syntax
 import Internal.Matrix
 import Data.Char
 
--- DRAFT. VERY DITRY AND VERY RAW DRAFT
+-- DRAFT. VERY DIRTY AND VERY RAW DRAFT
 
 pat :: String -> Q Pat
 pat raw = pure $ SigP (ConP 'Matrix [WildP, ListP $ map (VarP . mkName) ls]) (foldl AppT (ConT ''Matrix) [sizeType $ fromIntegral $ length ls, WildCardT, WildCardT])
