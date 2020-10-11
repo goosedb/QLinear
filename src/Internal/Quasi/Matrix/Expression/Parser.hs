@@ -1,4 +1,4 @@
-module Internal.Quasi.Matrix.Parser where
+module Internal.Quasi.Matrix.Expression.Parser where
 
 import Internal.Quasi.Parser
 import Language.Haskell.TH.Syntax

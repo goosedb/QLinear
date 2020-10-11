@@ -32,12 +32,12 @@ library
   other-modules:
       Internal.Determinant
       Internal.Matrix
-      Internal.Quasi.Matrix.Parser
       Internal.Quasi.Matrix.Quasi
       Internal.Quasi.Operator.Parser
       Internal.Quasi.Operator.Quasi
       Internal.Quasi.Parser
       Internal.Quasi.Quasi
+      Internal.Quasi.Matrix.Pattern.Quote 
   hs-source-dirs:
       src
   build-depends:
