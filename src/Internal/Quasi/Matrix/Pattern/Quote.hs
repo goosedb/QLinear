@@ -1,22 +1,24 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeApplications #-}
 
-module Internal.Quasi.Matrix.Pattern.Quote where
+module Internal.Quasi.Matrix.Pattern.Quote (pat) where
 
-import Language.Haskell.TH.Syntax
-import Internal.Matrix
-import Data.Char
+import Data.Char (isSpace)
+import Language.Haskell.TH.Lib (listP, litT, numTyLit, varP)
+import Language.Haskell.TH.Syntax (Pat, Q, mkName)
+
+import Internal.Matrix (Matrix (..))
 
 -- DRAFT. VERY DIRTY AND VERY RAW DRAFT
 
 pat :: String -> Q Pat
-pat raw = pure $ SigP (ConP 'Matrix [WildP, ListP $ map (VarP . mkName) ls]) (foldl AppT (ConT ''Matrix) [sizeType $ fromIntegral $ length ls, WildCardT, WildCardT])
+pat raw = [p| (Matrix _ $ps :: Matrix $size _ _) |]
   where
-    sizeType = LitT . NumTyLit
     ls = map trim $ split ';' raw
-
-
+    size = litT $ numTyLit $ fromIntegral $ length ls
+    ps = listP $ map (varP . mkName) ls
 
 split :: Char -> String -> [String]
 split sep = reverse . go [] [] where
