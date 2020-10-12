@@ -7,7 +7,6 @@
 module QLinear.Index where
 
 import Data.Proxy
-import qualified GHC.Natural as Natural
 import GHC.TypeNats
 
 -- | Typesafe index. To construct it use TypeApplications

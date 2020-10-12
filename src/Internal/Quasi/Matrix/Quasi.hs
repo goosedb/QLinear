@@ -4,14 +4,14 @@
 
 module Internal.Quasi.Matrix.Quasi (matrix, vector) where
 
-import Internal.Matrix
+import Language.Haskell.TH.Quote (QuasiQuoter (..))
+import Language.Haskell.TH.Syntax (Exp, Q)
+
+import Internal.Matrix (Matrix, Vector)
 import qualified Internal.Quasi.Matrix.Expression.Parser as Parser
-import qualified Internal.Quasi.Parser as Parser
 import qualified Internal.Quasi.Matrix.Expression.Quote as Quote
-import Internal.Quasi.Quasi
-import Language.Haskell.TH.Quote
-import Language.Haskell.TH.Syntax
-import Internal.Quasi.Matrix.Pattern.Quote
+import Internal.Quasi.Quasi (isNotDefinedAs)
+import Internal.Quasi.Matrix.Pattern.Quote (pat)
 
 -- | Macro constructor for 'QLinear.Matrix.Matrix'
 --
@@ -52,9 +52,9 @@ vector =
     notDefined = isNotDefinedAs "vector"
 
 vectorExpr :: String -> Q Exp
-vectorExpr source = f <$> Quote.expr Parser.vector source
+vectorExpr source = f $ Quote.expr Parser.vector source
   where
-    f = AppE (VarE 'toVector)
+    f x = [| toVector $x |]
 
 toVector :: Matrix n 1 a -> Vector n a
 toVector = id

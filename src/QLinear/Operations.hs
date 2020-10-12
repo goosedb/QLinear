@@ -26,7 +26,6 @@ import Data.List.Split (chunksOf)
 import Data.Tuple
 import Internal.Determinant (adjugate, algebraicComplement, algebraicComplement', det)
 import Internal.Matrix
-import Internal.Quasi.Matrix.Quasi
 import Prelude hiding (length)
 
 -- | Adds two matrices
@@ -113,8 +112,8 @@ zipMatricesWith ::
   Matrix m n a ->
   Matrix m n b ->
   Matrix m n c
-zipMatricesWith op (Matrix size l) (Matrix _ r) =
-  Matrix size $ zipWith (zipWith op) l r
+zipMatricesWith op (Matrix msize l) (Matrix _ r) =
+  Matrix msize $ zipWith (zipWith op) l r
 
 -- | Transposes matrix
 --
@@ -123,7 +122,7 @@ zipMatricesWith op (Matrix size l) (Matrix _ r) =
 -- [2,5]
 -- [3,6]
 transpose :: Matrix m n a -> Matrix n m a
-transpose (Matrix size matrix) = Matrix (swap size) (List.transpose matrix)
+transpose (Matrix msize matrix) = Matrix (swap msize) (List.transpose matrix)
 
 -- | Nagates all elements of matrix
 --
@@ -139,7 +138,7 @@ neg = ((-1) *~)
 -- >>> length [vector| 1 1 |]
 -- 1.4142135623730951
 length :: forall a b n. (Real a, Floating b) => Vector n a -> b
-length (Matrix _ matrix) = sqrt $ sum $ squares
+length (Matrix _ matrix) = sqrt $ sum squares
   where
     toFloating = realToFrac :: a -> b
     squares = map ((** 2) . toFloating) $ concat matrix
@@ -151,11 +150,15 @@ length (Matrix _ matrix) = sqrt $ sum $ squares
 --      [1.5,-0.5]
 -- >>> inverted [matrix| 1 4; 1 4|]
 -- Nothing
-inverted :: forall a b n. (Fractional b, Eq a, Real a) => Matrix n n a -> Maybe (Matrix n n b)
-inverted (Matrix size@(1, 1) [[a]]) = if a /= 0 then Just (Matrix size [[1.0 / toFloating a]]) else Nothing
+inverted :: forall a b n. (Fractional b, Real a) => Matrix n n a -> Maybe (Matrix n n b)
+inverted (Matrix msize@(1, 1) [[a]])
+  | a /= 0 = Just $ Matrix msize [[1.0 / toFloating a]]
+  | otherwise = Nothing
   where
     toFloating = realToFrac :: a -> b
-inverted matrix = if determinant /= 0 then Just $ ((invertedDet *) . toFloating) <$> adj else Nothing
+inverted matrix
+  | determinant /= 0 = Just $ (invertedDet *) . toFloating <$> adj
+  | otherwise = Nothing
   where
     toFloating = realToFrac :: a -> b
     determinant = det matrix
@@ -163,11 +166,11 @@ inverted matrix = if determinant /= 0 then Just $ ((invertedDet *) . toFloating)
     adj = adjugate matrix
 
 -- | Solves matrix equation kind of __A * X = B__
-solve :: forall a m n. (Eq a, Fractional a, Real a) => 
+solve :: forall a m n. (Fractional a, Real a) =>
   -- | A
-  Matrix m m a -> 
+  Matrix m m a ->
   -- | B
-  Matrix m n a -> 
+  Matrix m n a ->
   -- | X
-  Maybe (Matrix m n a) 
+  Maybe (Matrix m n a)
 solve a b = (~*~ b) <$> inverted a

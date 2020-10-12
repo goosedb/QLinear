@@ -6,7 +6,7 @@ import Language.Haskell.TH.Syntax
 definition :: Parser ([Pat], [Exp])
 definition = do
   params <- spaces *> parameters <* spaces
-  string "=>"
+  _ <- string "=>"
   lams <- spaces *> lambdas <* spaces
   eof
   pure (params, lams)
@@ -16,7 +16,7 @@ lambdas = do
   result <- many1 anyChar >>= expr
   case result of
     TupE elems -> pure elems
-    otherwise -> parserFail $ show otherwise
+    _ -> parserFail $ show otherwise
 
 parameters :: Parser [Pat]
 parameters = char '(' *> inner <* char ')'

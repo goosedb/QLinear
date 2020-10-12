@@ -17,8 +17,8 @@ unit = (var <|> num <|> inBrackets) >>= expr
 
 num :: Parser String
 num = do
-  neg <- (char' '-') <|> pure []
-  beforeDot <- ((many1 outer <> many inner) <|> char' '0')
+  neg <- char' '-' <|> pure []
+  beforeDot <- (many1 outer <> many inner) <|> char' '0'
   afterDot <- char' '.' <> many1 inner <|> mempty
   pure $ neg <> beforeDot <> afterDot
   where
@@ -29,7 +29,7 @@ inBrackets :: Parser String
 inBrackets = nested '(' ')'
 
 nested :: Char -> Char -> Parser String
-nested open close = char' open <> scan 1
+nested open close = char' open <> scan (1 :: Integer)
   where
     scan 0 = pure mempty
     scan n = many (noneOf [open, close]) <> (char' open <> inc n <|> char' close <> dec n)
