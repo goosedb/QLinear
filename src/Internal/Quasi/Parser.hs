@@ -7,8 +7,6 @@ import Language.Haskell.Meta.Syntax.Translate (toExp)
 import Language.Haskell.TH.Syntax
 import Text.Parsec as Parsec hiding (parse)
 import qualified Text.Parsec as P
-import Text.Parsec.Char as Parsec
-import Text.Parsec.Combinator as Parsec
 import Text.Parsec.Error as Parsec
 
 type Parser a = Parsec String () a
@@ -16,7 +14,7 @@ type Parser a = Parsec String () a
 parse :: Parser a -> SourceName -> String -> Either [String] a
 parse parser name source = case P.parse parser name source of
   Right a -> Right a
-  Left err -> Left $ map messageString $ errorMessages $ err
+  Left err -> Left $ map messageString $ errorMessages err
 
 satisfyOneOf :: [Char -> Bool] -> Parser Char
 satisfyOneOf ps = satisfy (or . ap ps . pure)
@@ -24,17 +22,14 @@ satisfyOneOf ps = satisfy (or . ap ps . pure)
 expr :: String -> Parser Exp
 expr source =
   case parseExp source of
-    ParseOk exp -> pure $ toExp exp
+    ParseOk ex -> pure $ toExp ex
     ParseFailed _ e -> parserFail e
 
 char' :: Char -> Parser String
 char' = fmap pure . char
 
-anyChar' :: Parser String
-anyChar' = fmap pure $ anyChar
-
 var :: Parser String
-var = ((many1 $ satisfyOneOf outer) <> (many $ satisfyOneOf inner))
+var = many1 (satisfyOneOf outer) <> many (satisfyOneOf inner)
   where
     outer = [isAlpha, (== '_')]
     inner = isDigit : (== '\'') : outer

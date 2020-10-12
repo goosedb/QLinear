@@ -7,7 +7,6 @@
 
 module Internal.Determinant where
 
-import qualified Data.List as List
 import Data.List.Split
 import Data.Proxy
 import qualified GHC.Natural as Natural
@@ -28,7 +27,8 @@ det (Matrix (3, _) [[a, b, c], [d, e, f], [g, h, i]]) =
   a * (e * i - f * h) - d * (b * i - c * h) + g * (b * f - c * e)
 det (Matrix (n, _) matrix) = sum $ map calcElem indices
   where
-    calcElem index@(i, j) = ((!! (j - 1)) $ matrix !! (i - 1)) * unsafeAlgebraicComplement matrix n index
+    calcElem index@(i, j) =
+      (matrix !! (i - 1) !! (j - 1)) * unsafeAlgebraicComplement matrix n index
     indices = zip (repeat 1) [1 .. n]
 
 -- | Typesafe algebraic complement
@@ -41,14 +41,14 @@ det (Matrix (n, _) matrix) = sum $ map calcElem indices
 -- -3
 algebraicComplement ::
   forall n a i j.
-  (KnownNat i, KnownNat j, KnownNat n, Num a, i <= n, j <= n) =>
+  (KnownNat i, KnownNat j, Num a, i <= n, j <= n) =>
   Matrix n n a ->
   Index i j ->
   a
 algebraicComplement (Matrix (n, _) matrix) _ = unsafeAlgebraicComplement matrix n (i, j)
   where
-    i = (Natural.naturalToInt $ natVal $ Proxy @i)
-    j = (Natural.naturalToInt $ natVal $ Proxy @j)
+    i = Natural.naturalToInt $ natVal $ Proxy @i
+    j = Natural.naturalToInt $ natVal $ Proxy @j
 
 -- | Algebraic complement.
 --
@@ -73,15 +73,16 @@ algebraicComplement' (Matrix (n, _) matrix) ij@(i, j)
 -- [4,-2]
 -- [-3,1]
 adjugate :: Num a => Matrix n n a -> Matrix n n a
-adjugate (Matrix size@(n, _) matrix) = Matrix size $ chunksOf n $ adj
+adjugate (Matrix msize@(n, _) matrix) = Matrix msize $ chunksOf n adj
   where
-    adj = map (unsafeAlgebraicComplement matrix n) [(i, j) | j <- [1 .. n], i <- [1 .. n]]
+    adj =
+      [unsafeAlgebraicComplement matrix n (i, j) | j <- [1 .. n], i <- [1 .. n]]
 
 unsafeAlgebraicComplement :: forall a. Num a => [[a]] -> Int -> (Int, Int) -> a
 unsafeAlgebraicComplement matrix n (i, j) = k * det (Matrix (n - 1, n - 1) minor)
   where
     minor = cross matrix (i - 1, j - 1)
-    k = fromIntegral $ (-1) ^ (j + i)
+    k = fromInteger $ (-1) ^ (j + i)
 
 cross :: [[a]] -> (Int, Int) -> [[a]]
 cross matrix (i, j) = withoutColumn
@@ -94,5 +95,5 @@ cut' 0 (x : xs) = (x, xs)
 cut' n (x : xs) = (x :) <$> cut' (n - 1) xs
 
 cut :: Int -> [a] -> [a]
-cut 0 (x : xs) = xs
+cut 0 (_ : xs) = xs
 cut n (x : xs) = x : cut (n - 1) xs

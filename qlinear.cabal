@@ -20,6 +20,8 @@ source-repository head
 
 library
   exposed-modules:
+      Internal.Determinant
+      Internal.Matrix
       QLinear
       QLinear.Constructor.Matrix
       QLinear.Constructor.Operator
@@ -30,14 +32,14 @@ library
       QLinear.Matrix
       QLinear.Operations
   other-modules:
-      Internal.Determinant
-      Internal.Matrix
+      Internal.Quasi.Matrix.Expression.Parser
+      Internal.Quasi.Matrix.Expression.Quote
+      Internal.Quasi.Matrix.Pattern.Quote
       Internal.Quasi.Matrix.Quasi
       Internal.Quasi.Operator.Parser
       Internal.Quasi.Operator.Quasi
       Internal.Quasi.Parser
       Internal.Quasi.Quasi
-      Internal.Quasi.Matrix.Pattern.Quote 
   hs-source-dirs:
       src
   build-depends:
@@ -53,7 +55,7 @@ library
 test-suite UnitTests
   type:                exitcode-stdio-1.0
   main-is:             Main.hs
-  hs-source-dirs:      test, src
+  hs-source-dirs:      test
   build-depends:       base,
                        hspec,
                        split,
@@ -61,22 +63,6 @@ test-suite UnitTests
                        parsec,
                        haskell-src-exts,
                        haskell-src-meta,
-                       linear
-  other-modules:       QLinear
-                       QLinear.Constructor.Matrix
-                       QLinear.Constructor.Operator
-                       QLinear.Identity
-                       QLinear.Index
-                       QLinear.Integration.Linear.From
-                       QLinear.Integration.Linear.To
-                       QLinear.Matrix
-                       QLinear.Operations
-                       Internal.Determinant
-                       Internal.Matrix
-                       Internal.Quasi.Matrix.Parser
-                       Internal.Quasi.Matrix.Quasi
-                       Internal.Quasi.Operator.Parser
-                       Internal.Quasi.Operator.Quasi
-                       Internal.Quasi.Parser
-                       Internal.Quasi.Quasi
+                       linear,
+                       qlinear
   default-language:    Haskell2010

@@ -6,7 +6,6 @@ module Internal.Quasi.Matrix.Quasi (matrix, vector) where
 
 import Internal.Matrix
 import qualified Internal.Quasi.Matrix.Expression.Parser as Parser
-import qualified Internal.Quasi.Parser as Parser
 import qualified Internal.Quasi.Matrix.Expression.Quote as Quote
 import Internal.Quasi.Quasi
 import Language.Haskell.TH.Quote

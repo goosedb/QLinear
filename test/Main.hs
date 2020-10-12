@@ -8,8 +8,6 @@
 
 module Main where
 
-import Data.Maybe
-import Data.Typeable
 import Internal.Determinant
 import Internal.Matrix
 import Linear (V2 (..), V3 (..), V4 (..))
@@ -24,7 +22,8 @@ import Test.Hspec
 newtype TestMatrix m n a = TestMatrix (Matrix m n a)
 
 instance {-# OVERLAPPING #-} Eq (TestMatrix m n Double) where
-  TestMatrix (Matrix ls lv) == TestMatrix (Matrix rs rv) = ls == rs && (all id $ zipWith (\l r -> abs (l - r) < threshold) (concat lv) (concat rv))
+  TestMatrix (Matrix ls lv) == TestMatrix (Matrix rs rv) =
+    ls == rs && and (zipWith (\l r -> abs (l - r) < threshold) (concat lv) (concat rv))
     where
       threshold = 0.0000001
 
@@ -129,18 +128,18 @@ main = hspec do
       det [matrix| a b; c d |] `shouldBe` det22 (V2 (V2 a b) (V2 c d))
       det [matrix| a b c; d e f; g h i |] `shouldBe` det33 (V3 (V3 a b c) (V3 d e f) (V3 g h i))
       det
-        [matrix| 
-        a b c d; 
-        e f g h; 
-        i j k l; 
+        [matrix|
+        a b c d;
+        e f g h;
+        i j k l;
         m n o p |]
         `shouldBe` det44 (V4 (V4 a b c d) (V4 e f g h) (V4 i j k l) (V4 m n o p))
       det
-        [matrix| 
-        -1  2  3  6   5; 
-        10  7 14  9  18; 
-        11 22 13 26  15; 
-        30 17 34 19  38; 
+        [matrix|
+        -1  2  3  6   5;
+        10  7 14  9  18;
+        11 22 13 26  15;
+        30 17 34 19  38;
         21 42 23 46 -25 |]
         `shouldBe` (-125200)
 
@@ -197,7 +196,7 @@ main = hspec do
       invE5 `matrixEqDouble` e
     it "(A^T)^(-1) = (A^(-1))^T" do
       let Just invAT = inverted $ transpose a
-      invAT `matrixEq` (transpose invA)
+      invAT `matrixEq` transpose invA
     it "(kA)^(-1) = k^(-1)A^(-1)" do
       let k = 5.5 :: Double
       let Just invkA = inverted $ k *~ a
