@@ -6,19 +6,21 @@
 module Internal.Quasi.Matrix.Pattern.Quote (pat) where
 
 import Data.Char (isSpace)
-import Language.Haskell.TH.Lib (listP, litT, numTyLit, varP)
-import Language.Haskell.TH.Syntax (Pat, Q, mkName)
+import Language.Haskell.TH.Lib (listP, litT, numTyLit, varP, varT)
+import Language.Haskell.TH.Syntax (Pat, Q, mkName, newName)
 
 import Internal.Matrix (Matrix (..))
 
 -- DRAFT. VERY DIRTY AND VERY RAW DRAFT
 
 pat :: String -> Q Pat
-pat raw = [p| (Matrix _ $ps :: Matrix $size _ _) |]
+pat raw = [p| (Matrix _ $ps :: Matrix $height $width $a) |]
   where
+    a = varT =<< newName "a"
     ls = map trim $ split ';' raw
-    size = litT $ numTyLit $ fromIntegral $ length ls
-    ps = listP $ map (varP . mkName) ls
+    height = litT $ numTyLit $ fromIntegral $ length ls
+    width = litT $ numTyLit $ fromIntegral $ length $ head ls
+    ps = listP $ map (listP . map (varP . mkName) . words) ls
 
 split :: Char -> String -> [String]
 split sep = reverse . go [] [] where

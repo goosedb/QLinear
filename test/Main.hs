@@ -3,6 +3,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE IncoherentInstances #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeApplications #-}
 
@@ -201,3 +202,11 @@ main = hspec do
       let k = 5.5 :: Double
       let Just invkA = inverted $ k *~ a
       invkA `matrixEqDouble` ((1 / k) *~ invA)
+
+  describe "Matrix pattern" do
+    it "example" do
+      let [matrix| a b; c d |] = [matrix| 3 15; 9 20 |]
+      a `shouldBe` 3
+      b `shouldBe` 15
+      c `shouldBe` 9
+      d `shouldBe` 20
