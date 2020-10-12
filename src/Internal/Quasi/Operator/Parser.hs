@@ -16,7 +16,7 @@ lambdas = do
   result <- many1 anyChar >>= expr
   case result of
     TupE elems -> pure elems
-    _ -> parserFail $ show otherwise
+    err -> parserFail $ show err
 
 parameters :: Parser [Pat]
 parameters = char '(' *> inner <* char ')'

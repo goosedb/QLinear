@@ -90,10 +90,7 @@ cross matrix (i, j) = withoutColumn
     withoutLine = cut i matrix
     withoutColumn = map (cut j) withoutLine
 
-cut' :: Int -> [a] -> (a, [a])
-cut' 0 (x : xs) = (x, xs)
-cut' n (x : xs) = (x :) <$> cut' (n - 1) xs
-
 cut :: Int -> [a] -> [a]
 cut 0 (_ : xs) = xs
 cut n (x : xs) = x : cut (n - 1) xs
+cut _ _ = error "internal error"
