@@ -15,7 +15,7 @@ expr parser source = do
   let (matrix, (m, n)) = unwrap $ parse source parser
   let sizeType = LitT . NumTyLit
   let constructor = foldl AppTypeE (ConE 'Matrix) [sizeType m, sizeType n, WildCardT]
-  let msize = TupE $ map (LitE . IntegerL) [m, n]
+  let msize = TupE $ map (Just . LitE . IntegerL) [m, n]
   let mvalue = ListE $ map ListE matrix
   pure $ foldl AppE constructor [msize, mvalue]
 

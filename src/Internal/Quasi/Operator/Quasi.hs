@@ -47,7 +47,7 @@ expr :: String -> Q Exp
 expr source = do
   let (params, lams, n) = unwrap $ parse source
   let sizeType = LitT . NumTyLit
-  let msize = TupE $ map (LitE . IntegerL) [n, 1]
+  let msize = TupE $ map (Just . LitE . IntegerL) [n, 1]
   let func = VarE 'matrixOfOperator
   let constructor = foldl AppTypeE (ConE 'Matrix) [sizeType n, sizeType 1, WildCardT]
   let mvalue = ListE $ map (ListE . pure . LamE [ListP params]) lams
