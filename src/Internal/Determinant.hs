@@ -9,7 +9,6 @@ module Internal.Determinant where
 
 import Data.List.Split
 import Data.Proxy
-import qualified GHC.Natural as Natural
 import GHC.TypeNats
 import Internal.Matrix
 import QLinear.Index
@@ -47,8 +46,8 @@ algebraicComplement ::
   a
 algebraicComplement (Matrix (n, _) matrix) _ = unsafeAlgebraicComplement matrix n (i, j)
   where
-    i = Natural.naturalToInt $ natVal $ Proxy @i
-    j = Natural.naturalToInt $ natVal $ Proxy @j
+    i = fromIntegral $ natVal $ Proxy @i
+    j = fromIntegral $ natVal $ Proxy @j
 
 -- | Algebraic complement.
 --
