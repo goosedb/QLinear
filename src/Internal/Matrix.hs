@@ -2,11 +2,14 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE PolyKinds #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Internal.Matrix where
 
 import qualified Data.List as List
-import GHC.TypeNats (Nat)
+import GHC.TypeNats (KnownNat,natVal, Nat)
+import Data.Proxy
 
 data Matrix (m :: Nat) (n :: Nat) a where
   Matrix :: forall m n a. (Int, Int) -> ![[a]] -> Matrix m n a
@@ -17,8 +20,8 @@ instance Show a => Show (Matrix m n a) where
 instance Functor (Matrix m n) where
   fmap f (Matrix msize a) = Matrix msize $ map (map f) a
 
-instance Applicative (Matrix m n) where
-  pure = Matrix (1, 1) . pure . pure
+instance (KnownNat m, KnownNat n) => Applicative (Matrix m n) where
+  pure = Matrix (fromIntegral $ natVal (Proxy :: Proxy m), fromIntegral $ natVal (Proxy :: Proxy n)) . pure . pure
   Matrix msize fs <*> (Matrix _ as) =
     Matrix msize $ zipWith (<*>) fs as
 

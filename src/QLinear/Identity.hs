@@ -8,7 +8,6 @@
 module QLinear.Identity (e, Identity, HasIdentity (..)) where
 
 import Data.Proxy
-import qualified GHC.Natural as Natural
 import GHC.TypeNats
 import Internal.Matrix
 
@@ -37,7 +36,7 @@ instance (Num a) => HasIdentity a where
 e :: forall n a. (KnownNat n, HasIdentity a) => Identity n a
 e = Matrix (n, n) $ finiteIdentityList (n, n) one zero
   where
-    n = Natural.naturalToInt $ natVal (Proxy @n)
+    n = fromIntegral $ natVal (Proxy @n)
 
 infiniteIdentityList :: a -> a -> [[a]]
 infiniteIdentityList o z = stream (o : repeat z)

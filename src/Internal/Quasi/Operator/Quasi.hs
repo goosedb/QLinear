@@ -2,14 +2,13 @@
 {-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskellQuotes #-}
 {-# LANGUAGE TypeApplications #-}
 
 module Internal.Quasi.Operator.Quasi where
 
 import Data.List.Split (chunksOf)
 import Data.Proxy
-import qualified GHC.Natural as Natural
 import GHC.TypeNats
 import Internal.Matrix
 import qualified Internal.Quasi.Operator.Parser as Parser
@@ -47,7 +46,7 @@ expr :: String -> Q Exp
 expr source = do
   let (params, lams, n) = unwrap $ parse source
   let sizeType = LitT . NumTyLit
-  let msize = TupE $ map (LitE . IntegerL) [n, 1]
+  let msize = TupE $ map (Just . LitE . IntegerL) [n, 1]
   let func = VarE 'matrixOfOperator
   let constructor = foldl AppTypeE (ConE 'Matrix) [sizeType n, sizeType 1, WildCardT]
   let mvalue = ListE $ map (ListE . pure . LamE [ListP params]) lams
@@ -73,4 +72,4 @@ matrixOfOperator :: forall n a b. (KnownNat n, HasIdentity a) => Matrix n 1 ([a]
 matrixOfOperator (Matrix _ fs) = Matrix (n, n) $ chunksOf n [f line | f <- concat fs, line <- identity]
   where
     (Matrix _ identity) = e :: Matrix n n a
-    n = Natural.naturalToInt $ natVal (Proxy @n)
+    n = fromIntegral $ natVal (Proxy @n)
